@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home View Controller-->
+        <!--Registration View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="NetworkTask" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="RegistrationViewController" customModule="NetworkTask" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -90,7 +90,41 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="138"/>
+            <point key="canvasLocation" x="-143" y="115"/>
+        </scene>
+        <!--Events View Controller-->
+        <scene sceneID="nhf-Uy-aft">
+            <objects>
+                <viewController storyboardIdentifier="EventsViewController" id="bk4-KI-Avt" customClass="EventsViewController" customModule="NetworkTask" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tx9-0Q-TUO"/>
+                        <viewControllerLayoutGuide type="bottom" id="dvh-NU-sMh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1rh-1F-RR5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MWD-pf-dXo">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="MWD-pf-dXo" firstAttribute="leading" secondItem="1rh-1F-RR5" secondAttribute="leading" id="6Sa-ix-FfN"/>
+                            <constraint firstItem="MWD-pf-dXo" firstAttribute="top" secondItem="tx9-0Q-TUO" secondAttribute="bottom" id="By6-9o-vyb"/>
+                            <constraint firstItem="dvh-NU-sMh" firstAttribute="top" secondItem="MWD-pf-dXo" secondAttribute="bottom" id="Te2-jE-rsu"/>
+                            <constraint firstAttribute="trailing" secondItem="MWD-pf-dXo" secondAttribute="trailing" id="rV9-KY-mpg"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="us6-Zf-YSF"/>
+                    <connections>
+                        <outlet property="tableView" destination="MWD-pf-dXo" id="Sfz-9n-LBS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sYk-f8-iI9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="675" y="115"/>
         </scene>
     </scenes>
 </document>
