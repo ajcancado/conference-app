@@ -18,7 +18,9 @@ class RegistrationViewModel: RegistrationViewModelProtocol {
 
     func registerUserWith(login: String?, password: String?) {
         
-        NetworkService.sharedService.registerUserWith(login: login, password: password, success: { (succes) in
+        NetworkService.sharedService.registerUserWith(login: login, password: password, success: { (userResponse) in
+            
+            SessionUserManager.shared.userResponse = userResponse
             
             self.goToEventsViewController.value = true
             

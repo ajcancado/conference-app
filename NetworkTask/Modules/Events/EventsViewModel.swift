@@ -46,7 +46,18 @@ class EventsViewModel: EventsViewModelProtocol {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let uuid = eventResponse?.events[indexPath.row].uuid else { return }
+        
+        NetworkService.sharedService.subscribeOnEvent(eventUUID: uuid, success: { response in
+        
+        }, failure: { error in
+            
+        })
+        
+        
     }
 
 }

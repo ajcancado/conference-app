@@ -18,7 +18,7 @@ class NetworkService: NSObject {
     
     //MARK: Requests
     
-    func registerUserWith(login: String?, password: String?, success: @escaping (Data)->(), failure: @escaping (Error?) -> ()) {
+    func registerUserWith(login: String?, password: String?, success: @escaping (UserResponse)->(), failure: @escaping (Error?) -> ()) {
         
         let url = URL(string: "htts://localhost:8080/api/v1/user")!
         
@@ -48,12 +48,9 @@ class NetworkService: NSObject {
             }
 
             do {
-                let json = try JSONDecoder().decode(UserResponse.self, from: data)
-                print(json)
-                
-                SessionUserManager.shared.userResponse = json
-                
-                success(data)
+                let userResponse = try JSONDecoder().decode(UserResponse.self, from: data)
+                print(userResponse)
+                success(userResponse)
             } catch let error {
                 print(error.localizedDescription)
             }
@@ -98,7 +95,36 @@ class NetworkService: NSObject {
     
     func subscribeOnEvent(eventUUID: Int, success: @escaping (Data)->(), failure: @escaping (Error?) -> ()) {
     
-        //subscribe method, use self.session
+        let url = URL(string: "htts://localhost:8080/api/v1/event/\(eventUUID)/join")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        if let authToken = SessionUserManager.shared.getAuthToken() {
+            request.addValue(authToken, forHTTPHeaderField: "authToken")
+        }
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                return
+            }
+
+            guard let data = data else {
+                return
+            }
+
+            do {
+                //create json object from data
+                let eventResponse = try JSONDecoder().decode(EventResponse.self, from: data)
+                print(eventResponse)
+                success(data)
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+
+        task.resume()
     }
 
 }
