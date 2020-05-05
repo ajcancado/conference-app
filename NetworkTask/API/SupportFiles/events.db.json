@@ -1,0 +1,20 @@
+{
+    "events": [
+        {
+            "uuid": 5723,
+            "name": "What's New in App Store Connect"
+        },
+        {
+            "uuid": 7655,
+            "name": "Advanced Debugging with Xcode and LLDB"
+        },
+        {
+            "uuid": 2314,
+            "name": "Behind the Scences of the Xcode Build Process"
+        },
+        {
+            "uuid": 9083,
+            "name": "Create Your Own Swift Playground Subscription"
+        }
+    ]
+}
