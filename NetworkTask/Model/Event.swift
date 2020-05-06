@@ -13,6 +13,6 @@ struct EventResponse: Codable {
 }
 
 struct Event: Codable {
-    var uuid: Int?
+    var uuid: Int
     var name: String?
 }

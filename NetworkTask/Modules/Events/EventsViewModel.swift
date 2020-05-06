@@ -8,24 +8,62 @@
 
 import UIKit
 
-protocol EventsViewModelProtocol {
+class EventsViewModel {
     
-}
-
-class EventsViewModel: EventsViewModelProtocol {
+    var title: String { return Constants.APP.events }
     
+    var showAlertController: Bindable = Bindable(UIAlertController())
     var reloadTableView: Bindable = Bindable(true)
+    var showActivityIndicator: Bindable = Bindable(true)
+    var hideActivityIndicator: Bindable = Bindable(true)
     
     var eventResponse: EventResponse?
     
     func handleEvents() {
         
+        showActivityIndicator.value = true
+        
         NetworkService.sharedService.getAllEvents(success: { data in
+            self.hideActivityIndicator.value = true
             self.eventResponse = data
         }) { error in
-           
+            self.hideActivityIndicator.value = true
         }
+    }
+    
+    func handleSubscribeOnEvent(event: Event) {
+        
+        let alertController = UIAlertController(title: Constants.Messages.subscribeQuestion,
+                                                message: event.name,
+                                                preferredStyle: UIAlertController.Style.alert)
 
+        let cancelAction = UIAlertAction(title: Constants.Messages.no, style: UIAlertAction.Style.cancel)
+        
+        let subscribeAction = UIAlertAction(title: Constants.Messages.yes, style: UIAlertAction.Style.default ) { _ in
+            self.makeSubscribeOnEvent(eventUUID: event.uuid)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(subscribeAction)
+        
+        showAlertController.value = alertController
+    }
+    
+    func makeSubscribeOnEvent(eventUUID: Int) {
+        
+        showActivityIndicator.value = true
+        
+        NetworkService.sharedService.subscribeOnEvent(eventUUID: eventUUID, success: { response in
+        
+            SessionManager.shared.userResponse = response
+            
+            self.hideActivityIndicator.value = true
+            
+            self.reloadTableView.value = true
+            
+        }, failure: { error in
+            self.hideActivityIndicator.value = true
+        })
         
     }
     
@@ -40,7 +78,10 @@ class EventsViewModel: EventsViewModelProtocol {
         
         let cell = tableView.dequeueReusableCell(with: EventCell.self, for: indexPath)
         
-        cell.nameLabel.text = eventResponse?.events[indexPath.row].name ?? ""
+        if let event = eventResponse?.events[indexPath.row] {
+            cell.nameLabel.text = event.name
+            cell.alreadySubscribeView.isHidden = !SessionManager.shared.alreadySubscribeOnEvent(eventUUID: event.uuid)
+        }
         
         return cell
     }
@@ -49,15 +90,11 @@ class EventsViewModel: EventsViewModelProtocol {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard let uuid = eventResponse?.events[indexPath.row].uuid else { return }
+        guard let event = eventResponse?.events[indexPath.row] else { return }
         
-        NetworkService.sharedService.subscribeOnEvent(eventUUID: uuid, success: { response in
-        
-        }, failure: { error in
-            
-        })
-        
-        
+        if !SessionManager.shared.alreadySubscribeOnEvent(eventUUID: event.uuid) {
+            handleSubscribeOnEvent(event: event)
+        }
     }
 
 }

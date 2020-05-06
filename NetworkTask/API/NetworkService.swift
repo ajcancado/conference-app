@@ -18,11 +18,11 @@ class NetworkService: NSObject {
     
     //MARK: Requests
     
-    func registerUserWith(login: String?, password: String?, success: @escaping (UserResponse)->(), failure: @escaping (Error?) -> ()) {
+    func registerUserWith(login: String, password: String, success: @escaping (UserResponse)->(), failure: @escaping (Error?) -> ()) {
         
-        let url = URL(string: "htts://localhost:8080/api/v1/user")!
+        let url = URL(string: Constants.API.baseURL)!
+        var request = URLRequest(url: url.appendingPathComponent("/api/v1/user"))
         
-        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         
         let parameters: [String: Any] = [
@@ -40,19 +40,17 @@ class NetworkService: NSObject {
         let task = self.session.dataTask(with: request) { (data, response, error) in
             
             guard error == nil else {
+                failure(error)
                 return
             }
 
-            guard let data = data else {
-                return
-            }
+            guard let data = data else { return }
 
             do {
                 let userResponse = try JSONDecoder().decode(UserResponse.self, from: data)
-                print(userResponse)
                 success(userResponse)
             } catch let error {
-                print(error.localizedDescription)
+                failure(error)
             }
         }
         
@@ -61,66 +59,60 @@ class NetworkService: NSObject {
     
     func getAllEvents(success: @escaping (EventResponse)->(), failure: @escaping (Error?) -> ()) {
         
-        let url = URL(string: "htts://localhost:8080/api/v1/events")!
+        let url = URL(string: Constants.API.baseURL)!
+        var request = URLRequest(url: url.appendingPathComponent("/api/v1/events"))
         
-        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
         
-        if let authToken = SessionUserManager.shared.getAuthToken() {
-            request.addValue(authToken, forHTTPHeaderField: "authToken")
+        if let authToken = SessionManager.shared.getAuthToken() {
+            request.addValue(authToken, forHTTPHeaderField: Constants.API.authorizationHeader)
         }        
         
         let task = session.dataTask(with: request) { (data, response, error) in
+            
             guard error == nil else {
+                failure(error)
                 return
             }
 
-            guard let data = data else {
-                return
-            }
+            guard let data = data else { return }
 
             do {
-                //create json object from data
                 let eventResponse = try JSONDecoder().decode(EventResponse.self, from: data)
-                print(eventResponse)
                 success(eventResponse)
-                
             } catch let error {
-                print(error.localizedDescription)
+                failure(error)
             }
         }
 
         task.resume()
     }
     
-    func subscribeOnEvent(eventUUID: Int, success: @escaping (Data)->(), failure: @escaping (Error?) -> ()) {
+    func subscribeOnEvent(eventUUID: Int, success: @escaping (UserResponse)->(), failure: @escaping (Error?) -> ()) {
     
-        let url = URL(string: "htts://localhost:8080/api/v1/event/\(eventUUID)/join")!
+        let url = URL(string: Constants.API.baseURL)!
+        var request = URLRequest(url: url.appendingPathComponent("/api/v1/event/\(eventUUID)/join"))
         
-        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
         
-        if let authToken = SessionUserManager.shared.getAuthToken() {
-            request.addValue(authToken, forHTTPHeaderField: "authToken")
+        if let authToken = SessionManager.shared.getAuthToken() {
+            request.addValue(authToken, forHTTPHeaderField: Constants.API.authorizationHeader)
         }
         
         let task = session.dataTask(with: request) { (data, response, error) in
+            
             guard error == nil else {
+                failure(error)
                 return
             }
 
-            guard let data = data else {
-                return
-            }
+            guard let data = data else { return }
 
             do {
-                //create json object from data
-                let eventResponse = try JSONDecoder().decode(EventResponse.self, from: data)
-                print(eventResponse)
-                success(data)
-                
+                let userResponse = try JSONDecoder().decode(UserResponse.self, from: data)
+                success(userResponse)
             } catch let error {
-                print(error.localizedDescription)
+                failure(error)
             }
         }
 

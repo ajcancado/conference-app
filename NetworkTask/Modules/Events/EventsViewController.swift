@@ -11,20 +11,39 @@ import UIKit
 class EventsViewController: UIViewController {
     
     var viewModel: EventsViewModel = EventsViewModel()
+    var customLoading: CustomLoading = CustomLoading()
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setupBindables()
         setupTableView()
         viewModel.handleEvents()
     }
     
+    private func setupUI() {
+        self.navigationItem.title = viewModel.title
+        self.navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
     private func setupBindables() {
+        
+        viewModel.showActivityIndicator.bind { value in
+            self.customLoading.showActivityIndicator(uiView: self.view)
+        }
+        
+        viewModel.hideActivityIndicator.bind { value in
+            self.customLoading.hideActivityIndicator(uiView: self.view)
+        }
         
         viewModel.reloadTableView.bind { value in
             self.tableView.reloadData()
+        }
+        
+        viewModel.showAlertController.bind { alertController in
+            self.present(alertController, animated: true)
         }
     }
     

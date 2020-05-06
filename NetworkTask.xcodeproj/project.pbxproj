@@ -30,11 +30,13 @@
 		8EEBF698246187960055BDEA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF697246187960055BDEA /* UIViewController.swift */; };
 		8EEBF69B24618A130055BDEA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF69A24618A130055BDEA /* Event.swift */; };
 		8EEBF69D24618A1D0055BDEA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF69C24618A1D0055BDEA /* User.swift */; };
-		8EEBF69F24618FC20055BDEA /* SessionUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF69E24618FC20055BDEA /* SessionUserManager.swift */; };
+		8EEBF69F24618FC20055BDEA /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF69E24618FC20055BDEA /* SessionManager.swift */; };
 		8EEBF6A3246191100055BDEA /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF6A1246191100055BDEA /* EventCell.swift */; };
 		8EEBF6A4246191100055BDEA /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EEBF6A2246191100055BDEA /* EventCell.xib */; };
 		8EEBF6A6246191EE0055BDEA /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF6A5246191EE0055BDEA /* UITableView.swift */; };
 		8EEBF6A8246194510055BDEA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEBF6A7246194510055BDEA /* NSObject.swift */; };
+		8EF49BB6246204CA006C1DFD /* CustomLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF49BB5246204CA006C1DFD /* CustomLoading.swift */; };
+		8EF49BB924621FD2006C1DFD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF49BB824621FD2006C1DFD /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,11 +77,13 @@
 		8EEBF697246187960055BDEA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		8EEBF69A24618A130055BDEA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8EEBF69C24618A1D0055BDEA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8EEBF69E24618FC20055BDEA /* SessionUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionUserManager.swift; sourceTree = "<group>"; };
+		8EEBF69E24618FC20055BDEA /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		8EEBF6A1246191100055BDEA /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		8EEBF6A2246191100055BDEA /* EventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		8EEBF6A5246191EE0055BDEA /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		8EEBF6A7246194510055BDEA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		8EF49BB5246204CA006C1DFD /* CustomLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoading.swift; sourceTree = "<group>"; };
+		8EF49BB824621FD2006C1DFD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,8 @@
 				5143A06D229DBBEA006296EE /* API */,
 				8EEBF699246189F30055BDEA /* Model */,
 				8E3B64692460F1C5002F0530 /* Helpers */,
+				8EF49BBB2462E0FF006C1DFD /* Managers */,
+				8EF49BBA24623704006C1DFD /* Components */,
 				8E6E93F02460ECAF00E6FF51 /* Modules */,
 				8E6E93F22460ECDB00E6FF51 /* Supporting Files */,
 			);
@@ -162,7 +168,6 @@
 			children = (
 				8E3B646A2460F1D9002F0530 /* Bindable.swift */,
 				8EEBF6942461874E0055BDEA /* AppStoryboard.swift */,
-				8EEBF69E24618FC20055BDEA /* SessionUserManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -191,6 +196,7 @@
 				4D24EF5E1F49A0A9003F4926 /* Assets.xcassets */,
 				4D24EF601F49A0A9003F4926 /* LaunchScreen.storyboard */,
 				4D24EF631F49A0A9003F4926 /* Info.plist */,
+				8EF49BB824621FD2006C1DFD /* Constants.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -240,6 +246,22 @@
 				8EEBF6A2246191100055BDEA /* EventCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		8EF49BBA24623704006C1DFD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8EF49BB5246204CA006C1DFD /* CustomLoading.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8EF49BBB2462E0FF006C1DFD /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8EEBF69E24618FC20055BDEA /* SessionManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,9 +377,11 @@
 				8EEBF6A8246194510055BDEA /* NSObject.swift in Sources */,
 				8E3B64682460EF1D002F0530 /* RegistrationViewModel.swift in Sources */,
 				8EEBF68E246183840055BDEA /* HTTPMethod.swift in Sources */,
+				8EF49BB924621FD2006C1DFD /* Constants.swift in Sources */,
 				5143A077229DBBEA006296EE /* UserEndpointHandler.swift in Sources */,
 				8EEBF691246186280055BDEA /* EventsViewController.swift in Sources */,
-				8EEBF69F24618FC20055BDEA /* SessionUserManager.swift in Sources */,
+				8EEBF69F24618FC20055BDEA /* SessionManager.swift in Sources */,
+				8EF49BB6246204CA006C1DFD /* CustomLoading.swift in Sources */,
 				8EEBF6A3246191100055BDEA /* EventCell.swift in Sources */,
 				8EEBF69D24618A1D0055BDEA /* User.swift in Sources */,
 				5143A078229DBBEA006296EE /* EventsEndpointHandler.swift in Sources */,
@@ -512,6 +536,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/NetworkTask/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -522,6 +547,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -530,6 +556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/NetworkTask/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -540,6 +567,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
