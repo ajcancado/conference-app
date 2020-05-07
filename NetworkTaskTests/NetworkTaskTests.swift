@@ -22,16 +22,8 @@ class NetworkTaskTests: XCTestCase {
         NetworkService.sharedService.registerUserWith(login: login, password: password, success: { (responseData) in
             expectation.fulfill()
             XCTAssertNotNil(responseData, "Data is nil")
+            XCTAssertNotNil(responseData.user?.authToken, "AuthToken is nil")
             
-            do {
-                let json = try JSONSerialization.jsonObject(with: responseData, options:[]) as! [String : Any?]
-                let authToken: String = json["authToken"] as! String
-                
-                XCTAssertNotNil(authToken, "AuthToken is nil")
-                
-            } catch let error {
-                print(error)
-            }
         }) { (error) in
             expectation.fulfill()
             XCTFail((error?.localizedDescription)!)
@@ -53,17 +45,10 @@ class NetworkTaskTests: XCTestCase {
                 expectation.fulfill()
                 XCTAssertNotNil(responseData, "Data is nil")
                 
-                do {
-                    let json = try JSONSerialization.jsonObject(with: responseData, options: []) as! [String: Any?]
-                    let events = json["events"] as! [[String: Any?]]
-                    let firstEvent = events.first!
-                    let firstEventName = firstEvent["name"] as! String
+                let firstEventName = responseData.events.first!.name
                     
-                    XCTAssertTrue(firstEventName == "What's New in App Store Connect")
-                    
-                } catch let error {
-                    print(error)
-                }
+                XCTAssertTrue(firstEventName == "What's New in App Store Connect")
+                
             }) { (error) in
                 expectation.fulfill()
                 XCTFail((error?.localizedDescription)!)
@@ -79,18 +64,13 @@ class NetworkTaskTests: XCTestCase {
             NetworkService.sharedService.subscribeOnEvent(eventUUID: eventId, success: { (responseData) in
                 
                 expectation.fulfill()
+                
                 XCTAssertNotNil(responseData, "Data is nil")
                 
-                do {
-                    let json = try JSONSerialization.jsonObject(with: responseData, options: []) as! [String: Any?]
-                    let user = json["user"] as! [String: Any]
-                    let events = user["events"] as! [[String: Any]]
-                    
-                    XCTAssertTrue(events.count == 1)
-                    
-                } catch let error {
-                    print(error)
-                }
+                let events = responseData.user?.events
+                
+                XCTAssertNotNil(events, "Events is nil")
+                XCTAssertTrue(events!.count == 1)
                 
             }) { (error) in
                 expectation.fulfill()
@@ -100,7 +80,8 @@ class NetworkTaskTests: XCTestCase {
     }
     
     private func registerUser(expectation: XCTestExpectation, success: @escaping () -> ()) {
-        NetworkService.sharedService.registerUserWith(login: "testUser", password: "secretPass", success: { (data) in
+        NetworkService.sharedService.registerUserWith(login: "testUser", password: "secretPass", success: { (userResponse) in
+            SessionManager.shared.userResponse = userResponse
             success()
         }) { (error) in
             expectation.fulfill()
